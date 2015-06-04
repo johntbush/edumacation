@@ -9,6 +9,8 @@ Some good reading...
 
 ### Some basics
 
+You are typically going to extend `RegexParsers` or `JavaTokenParsers`.  This gives you the basic parsing infrastructure and common regex patterns you need to build on. 
+
 * | is the alternation combinator. It says “succeed if either the left or right operand parse successfully”
 * ~ is the sequential combinator. It says “succeed if the left operand parses successfully, and then the right parses successfully on the remaining input”
 * ~> says “succeed if the left operand parses successfully followed by the right, but do not include the left content in the result”
