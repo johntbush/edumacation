@@ -3,9 +3,9 @@ import utils.{Expression, ExpressionParser, Where}
 /**
  * Created by johnbush on 10/10/14.
  */
-class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.scalatest.MustMatchers with org.scalatest.OptionValues {
+class ValidationExpressionParserTest  extends org.scalatest.WordSpec with org.scalatest.MustMatchers with org.scalatest.OptionValues {
 
-  "parse expressions" in {
+  "parse expressions" in  {
 
     val exprs = List(
       "ca_elem_1 has maxlength of 5",
@@ -54,14 +54,14 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
   }
 
 
-  "evaluate required" in {
+  "evaluate required" in  {
     val expr: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 is required").get
     assert(!expr.validator(null))
     assert(!expr.validator(""))
     assert(expr.validator("X"))
   }
 
-  "evaluate equals" in {
+  "evaluate equals" in  {
     val expr1: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should equal 5").get
     val expr2: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should = 5").get
     val expr3: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 must be equal to 5").get
@@ -76,7 +76,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
 
   }
 
-  "evaluate not equals" in {
+  "evaluate not equals" in  {
     val expr1: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should notEqual 5").get
     val expr2: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should != 5").get
     val expr3: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 must <> 5").get
@@ -94,7 +94,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
 
   }
 
-  "evaluate less than" in {
+  "evaluate less than" in  {
     val expr1: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should be < 5").get
     val expr2: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should be less than 5").get
     val expr3: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 must <= 5").get
@@ -111,7 +111,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
 
   }
 
-  "evaluate greater than" in {
+  "evaluate greater than" in  {
     val expr1: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should be > 5").get
     val expr2: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should be greater than 5").get
     val expr3: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 must >= 5").get
@@ -130,21 +130,21 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
   }
 
 
-  "evaluate notEmpty" in {
+  "evaluate notEmpty" in  {
     val expr2: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 is notEmpty").get
     assert(!expr2.validator(null))
     assert(!expr2.validator(""))
     assert(expr2.validator("X"))
   }
 
-  "evaluate empty" in {
+  "evaluate empty" in  {
     val expr: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 is empty").get
     assert(expr.validator(null))
     assert(expr.validator(""))
     assert(!expr.validator("X"))
   }
 
-  "evaluate minlength for strings" in {
+  "evaluate minlength for strings" in  {
     val expr: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 has minlength of 2").get
     assert(expr.validator("XXX"))
     assert(expr.validator("XX"))
@@ -153,7 +153,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
 
 
 
-  "evaluate minlength" in {
+  "evaluate minlength" in  {
     val expr: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 has minlength of 5").get
     assert(!expr.validator(null))
     assert(!expr.validator(""))
@@ -162,7 +162,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
     assert(expr.validator("XXXXXX"))
   }
 
-  "evaluate maxlength" in {
+  "evaluate maxlength" in  {
     val expr: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should have a maxlength of 5").get
     assert(expr.validator(null))
     assert(expr.validator(""))
@@ -171,7 +171,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
     assert(!expr.validator("XXXXXX"))
   }
 
-  "evaluate maxlength for strings" in {
+  "evaluate maxlength for strings" in  {
     val expr: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should have a maxlength of 2").get
 
     assert(expr.validator("X"))
@@ -180,7 +180,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
   }
 
 
-  "apply field name lookup to evaluation" in {
+  "apply field name lookup to evaluation" in  {
     val expr1: Expression = ExpressionParser.parseSingleExpr("ca_elem_1 should have a maxlength of 5").get
     val expr2: Expression = ExpressionParser.parseSingleExpr("ca_elem_2 should have a maxlength of 5").get
     val expr3: Expression = ExpressionParser.parseSingleExpr("ca_elem_3 should have a maxlength of 5").get
@@ -203,7 +203,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
 
   }
 
-  "evaluate a bunch of added expressions" in {
+  "evaluate a bunch of added expressions" in  {
     val expr: Where = ExpressionParser.parse("( ca_elem_1 should have a maxlength of 5 and ca_elem_2 should have a maxlength of 5 and ca_elem_3 should have a maxlength of 5 and ca_elem_4 should have a maxlength of 5 and ca_elem_5 should have a minlength of 5 )").get
     val fieldMap = Map(
       "ca_elem_1" -> null,
@@ -214,7 +214,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
     assert(ExpressionParser.evaluate(expr.clauses(0), fieldMap))
   }
 
-  "evaluate expressions using or" in {
+  "evaluate expressions using or" in  {
     val expr: Where = ExpressionParser.parse("ca_elem_1 is required or ca_elem_2 should have a maxlength of 5 ").get
     val fieldMap = Map(
       "ca_elem_1" -> null,
@@ -225,7 +225,7 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
     assert(ExpressionParser.evaluate(expr.clauses(0), fieldMap))
   }
 
-  "evaluate expressions using or,and" in {
+  "evaluate expressions using or,and" in  {
     val expr: Where = ExpressionParser.parse("( ca_elem_1 is empty or ca_elem_2 should have a maxlength of 5 ) and ca_elem_5 is required").get
     val fieldMap = Map(
       "ca_elem_1" -> null,
@@ -254,17 +254,18 @@ class ValidationExpressionParserTest extends org.scalatest.WordSpec with org.sca
   }
 
 
-  "parse if/then" in {
 
-    val expr1: Where = ExpressionParser.parse("if ca_elem_1 = null then ca_elem_3 = \"X\"").get
+  "parse if/then" in  {
 
-    val expr2: Where = ExpressionParser.parse("if (ca_elem_1 = null) then ca_elem_2 is required").get
+    val expr1: Where = ExpressionParser.parse( "if ca_elem_1 = null then ca_elem_3 = \"X\"").get
 
-    val expr3: Where = ExpressionParser.parse("if (ca_elem_3 != null) then (ca_elem_4 is required)").get
+    val expr2: Where = ExpressionParser.parse( "if (ca_elem_1 = null) then ca_elem_2 is required").get
 
-    val expr4: Where = ExpressionParser.parse("if (ca_elem_1 != null or ca_elem_2 > 5) then (ca_elem_2 is required and ca_elem_1 < 5)").get
+    val expr3: Where = ExpressionParser.parse( "if (ca_elem_3 != null) then (ca_elem_4 is required)").get
 
-    val expr5: Where = ExpressionParser.parse("if (ca_elem_1 != null or if ca_elem_2 > 5 then ca_elem_4 > 3) then (ca_elem_2 is required and ca_elem_1 < 5)").get
+    val expr4: Where = ExpressionParser.parse( "if (ca_elem_1 != null or ca_elem_2 > 5) then (ca_elem_2 is required and ca_elem_1 < 5)").get
+
+    val expr5: Where = ExpressionParser.parse( "if (ca_elem_1 != null or if ca_elem_2 > 5 then ca_elem_4 > 3) then (ca_elem_2 is required and ca_elem_1 < 5)").get
 
     val fieldMap = Map(
       "ca_elem_1" -> null,

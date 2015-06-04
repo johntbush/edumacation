@@ -17,3 +17,5 @@ You are typically going to extend `RegexParsers` or `JavaTokenParsers`.  This gi
 * <~ is the reverse, “succeed if the left operand is parsed successfully followed by the right, but do not include the right content in the result”
 * ^^=> is the transformation combinator. It says “if the left operand parses successfully, transform the result using the function on the right”
 * rep => simply says “expect N-many repetitions of parser X” where X is the parser passed as an argument to rep
+
+https://github.com/wdavidw/node-csv-parse/blob/master/lib/index.js
